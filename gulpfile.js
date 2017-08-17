@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean-css');
 
 gulp.task("concatScripts", function() {
-    gulp.src([
+		gulp.src([
             'js/jquery.js',
             'js/fastclick.js',
             'js/foundation.js',
@@ -22,7 +22,7 @@ gulp.task("concatScripts", function() {
         .pipe(maps.write('./'))
         .pipe(gulp.dest('js'));
 
-        gulp.src([
+        return gulp.src([
   	'css/normalize.css',
   	'css/foundation.css',
   	'css/basics.css',
@@ -38,7 +38,7 @@ gulp.task("concatScripts", function() {
         .pipe(gulp.dest('css'));
 });
 
-gulp.task("minifyScripts", ["concatScripts"], function() {
+gulp.task("minifyScripts", ['concatScripts'], function() {
    return gulp.src("js/app.js")
         .pipe(uglify())
         .pipe(rename('app.min.js'))
@@ -46,7 +46,7 @@ gulp.task("minifyScripts", ["concatScripts"], function() {
 });
 
 // gulp.task("concatScripts", function() {
-//     gulp.src([
+//     return gulp.src([
 //   	'css/normalize.css',
 //   	'css/foundation.css',
 //   	'css/basics.css',
@@ -62,13 +62,11 @@ gulp.task("minifyScripts", ["concatScripts"], function() {
 //         .pipe(gulp.dest('css'));
 // });
 
-gulp.task('minify-css', ["concatScripts"], () => {
+gulp.task('minify-css', ['concatScripts'], () => {
    return gulp.src(["css/app.css"])
-    .pipe(maps.init())
     .pipe(clean())
-    .pipe(maps.write())
     .pipe(rename('app.min.css'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('css'));
 });
 
 gulp.task("build", ['minifyScripts', 'minify-css'], function() {
